@@ -16,7 +16,7 @@ def create_gcs_bucket(bucket_name):
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(bucket_name)
-    bucket.storage_class = "COLDLINE"
+    bucket.storage_class = "STANDARD"
     new_bucket = storage_client.create_bucket(bucket, location="us")
 
     print(
