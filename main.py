@@ -12,7 +12,7 @@ print(bucket_name)
 
 # bucket_name = "your-new-bucket-name"
 
-def create_gcs_bucket(bucket_name)
+def create_gcs_bucket(bucket_name):
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(bucket_name)
