@@ -7,7 +7,7 @@ from datetime import datetime
 from google.cloud import storage
 
 today_date = datetime.now().strftime("%Y-%m-%d")
-bucket_name = "data-injection-bucket-gcs-" + today_date
+bucket_name = "data-injection-bucket-gcs-ip"
 print(bucket_name)
 
 # bucket_name = "your-new-bucket-name"
