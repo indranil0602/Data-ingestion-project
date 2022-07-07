@@ -1,14 +1,28 @@
 # import required libraries
-
+import os
 from datetime import datetime
 
 # import google cloud library
-
+from google.cloud import secretmanager
 from google.cloud import storage
 
 today_date = datetime.now().strftime("%Y-%m-%d")
 bucket_name = "data-injection-bucket-gcs-ip"
 print(bucket_name)
+
+
+client = secretmanager.SecretManagerServiceClient()
+
+f = open("config.json", "r")
+data = json.load(f)
+project_id = data.get("project_id")
+secret_name = data.get("secret_name")
+
+request = {"name" : f"projects/{project_id}/secrets/{secret_name}/versions/latest"}
+response = client.access_secret_version(request)
+secret_value = response.payload.data.decode("UTF-8")
+
+print(f"secret value : {secret_value}")
 
 # bucket_name = "your-new-bucket-name"
 
