@@ -18,7 +18,7 @@ year_date = datetime.now().strftime("%Y")
 new_bucket_name = f"{project_id}" + "-data-injection-bucket-" + year_date
 print(new_bucket_name)
 
-
+# getting secrets from secret-manager
 secret_client = secretmanager.SecretManagerServiceClient()
 
 request = {"name" : f"projects/{project_id}/secrets/{secret_name}/versions/latest"}
@@ -60,8 +60,24 @@ def check_list_of_buckets(bucket_name):
 # hit url using api and get response
 
 # store response into bucket
+def upload_file_to_gcs(bucket_name, source_file_name, destination_file_name):
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_file_name)
+    blob.upload_from_filename(source_file_name)
+
+    print("File {source_file_name} uploaded to {destination_file_name}")
 
 # entry-point function
 
 def hello_pubsub(event, context):
+    #check bucket and get terget bucket
     terget_bucket = check_list_of_buckets(bucket_name=new_bucket_name)
+
+    #call api and get the response
+
+    #upload responses into terget bucket
+    upload_file_to_gcs(bucket_name=terget_bucket.name, source_file_name, destination_file_name)
+
+    print("Done")
