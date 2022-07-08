@@ -1,6 +1,7 @@
 # import required libraries
 import os
 import json
+import base64
 from datetime import datetime
 
 # import google cloud library
