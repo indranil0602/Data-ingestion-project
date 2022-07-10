@@ -44,19 +44,13 @@ def create_gcs_bucket(bucket_name):
 # check wheather bucket has been created or not
 
 def check_list_of_buckets(bucket_name):
-    """Lists all buckets."""
-
     storage_client = storage.Client()
     buckets = storage_client.list_buckets()
-
-    if buckets.len() == 0:
-        return create_gcs_bucket(bucket_name) 
-    else:    
-        for bucket in buckets:
-            if bucket_name == bucket.name:
-                return bucket
-        else:
-            return create_gcs_bucket(bucket_name) 
+  
+    for bucket in buckets:
+        if bucket_name == bucket.name:
+            return True
+    return False
 
 # hit url using api and get response
 
@@ -74,11 +68,14 @@ def upload_file_to_gcs(bucket_name, source_file_name, destination_file_name):
 
 def hello_pubsub(event, context):
     #check bucket and get terget bucket
-    terget_bucket = check_list_of_buckets(bucket_name=new_bucket_name)
+    target_bucket_name = ""
+    
+    if check_list_of_buckets(bucket_name=new_bucket_name) != True:
+        target_bucket_name = create_gcs_bucket(new_bucket_name).name
 
     #call api and get the response
 
     #upload responses into terget bucket
-    upload_file_to_gcs(bucket_name=terget_bucket.name, source_file_name, destination_file_name)
+    upload_file_to_gcs(bucket_name=terget_bucket_name, source_file_name, destination_file_name)
 
     print("Done")
